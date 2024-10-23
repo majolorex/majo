@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warm Tone Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            scroll-behavior: smooth;
+            background: linear-gradient(135deg, #FF7E5F, #FD3A69); /* เปลี่ยนเป็นโทนสีส้มแดง */
+            font-family: 'Helvetica Neue', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .left-image {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 300px;
+            height: auto;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 a {
+            font-size: 90px;
+            color: #FFD700; /* สีทอง */
+            font-weight: 900; /* เพิ่มความหนาของฟอนต์ */
+            text-decoration: none;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* เพิ่มเงาให้ตัวอักษร */
+        }
+
+        h2 a {
+            font-size: 90px;
+            color: #FF4500; /* สีส้มแดงเข้ม */
+            font-weight: 700; /* เพิ่มความหนาของฟอนต์ */
+            text-decoration: none;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* เพิ่มเงาให้ตัวอักษร */
+        }
+
+        .popover {
+            display: none;
+            box-shadow: 0px 6px 8px rgba(19, 19, 19, .7);
+        }
+
+        .popover:target {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popover .content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 0;
+            height: 0;
+            color: #FFA07A; /* สีส้มอ่อน */
+            background-color: #331A0A; /* สีน้ำตาลเข้ม */
+            animation: 1s grow ease forwards;
+            text-align: center;
+        }
+
+        .nav_list {
+            list-style-type: none;
+        }
+
+        .nav_list a {
+            text-decoration: none;
+            font-size: 50px;
+            color: #FF6347; /* สีแดงเข้ม */
+            font-weight: 600; /* เพิ่มความหนาของฟอนต์ */
+            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5); /* เพิ่มเงา */
+        }
+
+        .nav_list_item {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .nav_list li {
+            padding: 15px 0;
+            text-transform: uppercase;
+            transform: translateY(200px);
+            opacity: 0;
+            animation: 2s slideUp ease forwards .5s;
+            position: relative;
+        }
+
+        .nav_list li::before {
+            content: '';
+            position: absolute;
+            height: 2px;
+            width: 0px;
+            left: 0;
+            bottom: 10px;
+            background: #FFD700; /* สีทอง */
+            transition: all .5s ease;
+        }
+
+        .nav_list li:hover:before {
+            width: 100%;
+        }
+
+        .popover p {
+            padding: 50px;
+            opacity: 0;
+            animation: 1s fadeIn ease forwards 1s;
+        }
+
+        .popover .close::after {
+            right: 0;
+            top: 0;
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            display: flex;
+            z-index: 1;
+            font-size: 30px;
+            align-items: center;
+            justify-content: center;
+            background-color: #FF6347; /* สีแดงเข้ม */
+            color: #331A0A; /* สีน้ำตาลเข้ม */
+            content: "×";
+            cursor: pointer;
+            opacity: 0;
+            animation: 1s fadeIn ease forwards .5s;
+        }
+
+        .animated-background .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 128, 64, 0.7); /* สีส้ม */
+            animation: move 5s infinite;
+        }
+
+        .circle:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            left: 20%;
+        }
+
+        .circle:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 50%;
+            left: 70%;
+        }
+
+        .additional-content {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: #FFD700; /* สีทอง */
+            font-size: 24px;
+            font-weight: 600; /* เพิ่มความหนาของฟอนต์ */
+            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5); /* เพิ่มเงา */
+            opacity: 0;
+            animation: fadeIn 2s forwards 1s;
+        }
+
+        @keyframes grow {
+            100% {
+                height: 90%;
+                width: 90%;
+            }
+        }
+
+        @keyframes fadeIn {
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes move {
+            0% {
+                transform: scale(1) translateX(0);
+            }
+            50% {
+                transform: scale(1.5) translateX(20px);
+            }
+            100% {
+                transform: scale(1) translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+
+        <h1><a href="#">ประวัติ</a></h1>
+        <h2><a href="#">ของคุณปริ้น</a></h2>
+
+        <ul class="nav_list">
+            <li><a href="ประวัติ.html">ประวัติ</a></li>
+            <li><a href="สถานที่ที่ชอบ.html">สถานที่ที่ชอบ</a></li>
+            <li><a href="สิ่งที่ชอบ.html">สิ่งที่ชอบ</a></li>
+            <li><a href="อาหารที่ชอบ.html">อาหารที่ชอบ</a></li>
+            <li><a href="เกมที่ชอบ.html">เกมที่ชอบ</a></li>
+        </ul>
+
+        <div class="popover" id="popover">
+            <div class="content">
+                <p>This is a popover message!</p>
+                <a href="#" class="close"></a>
+            </div>
+        </div>
+
+        <div class="animated-background">
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+
+        <div class="additional-content">
+            <p>Welcome to our website!</p>
+            <p>Explore more by clicking the links below.</p>
+        </div>
+    </div>
+</body>
+</html>
